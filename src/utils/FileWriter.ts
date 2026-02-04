@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import { promises as fs } from 'fs';
 import * as path from 'path';
 
 /**
@@ -12,40 +12,31 @@ export class FileWriter {
     const dir = path.dirname(filePath);
     
     // Create directory if it doesn't exist
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
+    try {
+      await fs.access(dir);
+    } catch {
+      await fs.mkdir(dir, { recursive: true });
     }
 
-    return new Promise((resolve, reject) => {
-      fs.writeFile(filePath, content, 'utf8', (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
-    });
+    await fs.writeFile(filePath, content, 'utf8');
   }
 
   /**
    * Read file content
    */
   static async read(filePath: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      });
-    });
+    return await fs.readFile(filePath, 'utf8');
   }
 
   /**
    * Check if file exists
    */
-  static exists(filePath: string): boolean {
-    return fs.existsSync(filePath);
+  static async exists(filePath: string): Promise<boolean> {
+    try {
+      await fs.access(filePath);
+      return true;
+    } catch {
+      return false;
+    }
   }
 }
