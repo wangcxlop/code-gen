@@ -1,0 +1,13 @@
+Statistic,Value
+Global R²,0.8331
+Mean Local R²,-9.1856
+Min Local R²,-1344.3018
+Max Local R²,1.0
+RMSE,6.0625
+MAE,2.6473
+AIC,1323.14
+Bandwidth,0.0047
+Mean Intercept,6.5894
+Mean Altitude Coef,-0.0004
+Std Intercept,14.3354
+Std Altitude Coef,0.0177
